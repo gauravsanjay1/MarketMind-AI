@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    ports: ["8000:8000"]
+    volumes: ["./data:/data"]
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports: ["3000:3000"]
+    depends_on: [backend]
+# Optional fully-local LLM (no API key): uncomment, then set
+# LLM_BASE_URL=http://ollama:11434/v1 and LLM_MODEL=llama3.1 in .env
+#  ollama:
+#    image: ollama/ollama
+#    volumes: ["ollama:/root/.ollama"]
+#volumes:
+#  ollama:
